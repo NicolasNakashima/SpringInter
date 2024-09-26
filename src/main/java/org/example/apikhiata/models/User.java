@@ -119,19 +119,19 @@ public class User {
         this.age = age;
     }
 
-    public boolean isDressmaker() {
+    public boolean getIsDressmaker() {
         return isDressmaker;
     }
 
-    public void setDressmaker(boolean dressmaker) {
+    public void setIsDressmaker(boolean dressmaker) {
         isDressmaker = dressmaker;
     }
 
-    public boolean isPremium() {
+    public boolean getIsPremium() {
         return isPremium;
     }
 
-    public void setPremium(boolean premium) {
+    public void setIsPremium(boolean premium) {
         isPremium = premium;
     }
 
