@@ -1,13 +1,17 @@
 package org.example.apikhiata.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
-@Table(name = "users")
 public class User {
 
     @Id
@@ -23,23 +27,22 @@ public class User {
     private String cpf;
 
     @ManyToOne
-    @JoinColumn(name = "gender_id", nullable = false)
+    @JoinColumn(name = "genderId", nullable = false)
     private Gender gender;
 
     @NotNull(message = "A idade não pode ser nula")
     private int age;
 
-    @Column(name = "is_dressmaker")
+    @NotNull(message = "É necessário definir se é costureiro")
     private boolean isDressmaker;
 
-    @Column(name = "is_premium")
+    @NotNull(message = "É necessário definir se o usuário é premium")
     private boolean isPremium;
 
     @NotNull(message = "O telefone não pode ser nulo")
     private int phone;
 
     @Size(max = 100, message = "A URL da imagem não pode exceder 100 caracteres")
-    @Column(name = "image_url")
     private String imageURL;
 
     @NotNull(message = "A senha não pode ser nula")
@@ -52,7 +55,6 @@ public class User {
     private String email;
 
     @Size(max = 100, message = "A URL da foto de perfil não pode exceder 100 caracteres")
-    @Column(name = "profile_picture_url")
     private String profilePictureUrl;
 
     // Construtor vazio
