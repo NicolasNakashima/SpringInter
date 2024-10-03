@@ -34,7 +34,7 @@ public class UserController {
     }
 
     //selecionar todos
-    @GetMapping("/selecionarTodos")
+    @GetMapping("/selecionar")
     @Operation(summary = "Busca por todos os usuários", description = "Busca todos os usuários cadastrados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de usuários retornada com sucesso!",
@@ -46,7 +46,7 @@ public class UserController {
         return userService.findAllUsers();
     }
 
-    @GetMapping("/selecionar/{nome}")
+    @GetMapping("/selecionar/nome/{nome}")
     @Operation(summary = "busca usuário por nome", description = "Busca o usuário selecionado pelo nome dele")
     public ResponseEntity<?> buscarUsuarioPorNome(@Valid @PathVariable String nome) {
         List<User> userList = userService.findUserByName(nome);
@@ -129,20 +129,4 @@ public class UserController {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+}//fim do controller
