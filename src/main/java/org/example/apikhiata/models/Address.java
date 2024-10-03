@@ -1,26 +1,19 @@
 package org.example.apikhiata.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
 @Schema(description = "Representa o endereço do usuário")
+@Table(name = "adress")
 public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID do endereço")
     private int id;
-
-    @NotNull(message = "O destinatário não pode ser null")
-    @Size(min = 1, max = 60, message = "O destinatário não pode ter mais que 60 caracteres")
-    @Schema(description = "Nome do destinatário")
-    private String recipient;
 
     @NotNull(message = "A rua não pode ser null")
     @Size(min = 1, max = 60, message = "A rua não pode ter mais que 60 caracteres")
@@ -44,9 +37,8 @@ public class Address {
     }
 
     // Construtor com parâmetros
-    public Address(int id, String recipient, String street, int number, String complement, String label) {
+    public Address(int id, String street, int number, String complement, String label) {
         this.id = id;
-        this.recipient = recipient;
         this.street = street;
         this.number = number;
         this.complement = complement;
@@ -60,14 +52,6 @@ public class Address {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getRecipient() {
-        return recipient;
-    }
-
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
     }
 
     public String getStreet() {
