@@ -68,7 +68,7 @@ public class UserService {
         User existingUser = findUserById(id);
         existingUser.setName(user.getName());
         existingUser.setCpf(user.getCpf());
-        existingUser.setGender(user.getGender());
+        existingUser.setGenderId(user.getGenderId());
         existingUser.setAge(user.getAge());
         existingUser.setIsDressmaker(user.getIsDressmaker());
         existingUser.setIsPremium(user.getIsPremium());
