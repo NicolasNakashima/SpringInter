@@ -22,9 +22,8 @@ public class User {
     @CPF(message = "CPF inválido")
     private String cpf;
 
-    @ManyToOne
-    @JoinColumn(name = "gender_id", nullable = false)
-    private Gender gender;
+    @Column(name = "gender_id", nullable = false)
+    private int genderId;
 
     @NotNull(message = "A idade não pode ser nula")
     private int age;
@@ -61,12 +60,12 @@ public class User {
     }
 
     // Construtor completo
-    public User(int id, String name, String cpf, Gender gender, int age, boolean isDressmaker, boolean isPremium,
+    public User(int id, String name, String cpf, int genderId, int age, boolean isDressmaker, boolean isPremium,
                 int phone, String imageURL, String password, String email, String profilePictureUrl) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
-        this.gender = gender;
+        this.genderId = genderId;
         this.age = age;
         this.isDressmaker = isDressmaker;
         this.isPremium = isPremium;
@@ -102,12 +101,12 @@ public class User {
         this.cpf = cpf;
     }
 
-    public Gender getGender() {
-        return gender;
+    public int getGenderId() {
+        return genderId;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setGenderId(int genderId) {
+        this.genderId = genderId;
     }
 
     public int getAge() {
