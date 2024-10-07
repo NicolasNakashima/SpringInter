@@ -1,5 +1,6 @@
 package org.example.apikhiata.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -35,6 +36,7 @@ public class Address {
     @Schema(description = "Rótulo do endereço", example = "Casa, Trabalho")
     private String label;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "addresses")
     private Set<User> users = new HashSet<>();
 
