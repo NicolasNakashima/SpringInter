@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Schema(description = "Representa o endereço do usuário")
 @Table(name = "adress")
@@ -31,6 +34,9 @@ public class Address {
     @Size(max = 50, message = "O rótulo não pode ter mais que 50 caracteres")
     @Schema(description = "Rótulo do endereço", example = "Casa, Trabalho")
     private String label;
+
+    @ManyToMany(mappedBy = "addresses")
+    private Set<User> users = new HashSet<>();
 
     // Construtor vazio
     public Address() {
@@ -84,5 +90,13 @@ public class Address {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }
