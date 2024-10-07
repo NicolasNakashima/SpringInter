@@ -15,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @ControllerAdvice
@@ -114,19 +116,66 @@ public class UserController {
         }
     }
 
-    @PutMapping("/atualizar/{id}")
-    @Operation(summary = "Atualizar usuário por id", description = "Atualiza um usuário existente pelo seu id")
-    public ResponseEntity<String> atualizarUsuario(@Valid @PathVariable int id, @Valid @RequestBody User user) {
+    @DeleteMapping("/deletar/email/{email}")
+    @Operation(summary = "Deletar usuário por email", description = "Deleta um usuário pelo email dele")
+    public ResponseEntity<String> deletarPorEmail(@Valid @PathVariable String email) {
         try {
-            // Chama o serviço para atualizar o usuário
-            User usuarioAtualizado = userService.updateUser(id, user);
-            return ResponseEntity.ok("Usuário atualizado com sucesso: " + usuarioAtualizado.getId());
+            userService.deleteUserByEmail(email);
+            return ResponseEntity.status(HttpStatus.OK).body("Cliente deletado com sucesso");
         } catch (RuntimeException e) {
+            // Retorna 404 Not Found se o usuário não for encontrado
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
+            // Lida com outros tipos de erro, retornando 500 Internal Server Error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao deletar o usuário: " + e.getMessage());
+        }
+    }
+
+
+    @PatchMapping("/atualizar/{id}")
+    @Operation(summary = "Atualizar parcialmente o usuário por ID", description = "Atualiza apenas os campos mandados do usuário pelo seu ID")
+    public ResponseEntity<?> atualizarParcial(@PathVariable int id, @RequestBody Map<String, Object> atualizacoes) {
+        try {
+            User usuarioAtualizado = userService.updatePartialUserWithId(id, atualizacoes);
+            //caso de sucesso
+            Map<String, Object> response = new HashMap<>();
+            response.put("mensagem", "Usuário atualizado com sucesso");
+            response.put("usuario", usuarioAtualizado);
+
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException e) {
+            // Retorna 404 Not Found se o usuário não for encontrado
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            //Qualquer outro erro vai mandar 500
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao atualizar o usuário: " + e.getMessage());
         }
     }
+
+    @PatchMapping("/atualizar/email/{email}")
+    @Operation(summary = "Atualizar parcialmente o usuário por email", description = "Atualiza apenas os campos mandados do usuário pelo seu email")
+    public ResponseEntity<?> atualizarParcial(@PathVariable String email, @RequestBody Map<String, Object> atualizacoes) {
+        try {
+            User usuarioAtualizado = userService.updatePartialUserWithEmail(email, atualizacoes);
+            //caso de sucesso
+            Map<String, Object> response = new HashMap<>();
+            response.put("mensagem", "Usuário atualizado com sucesso");
+            response.put("usuario", usuarioAtualizado);
+
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException e) {
+            // Retorna 404 Not Found se o usuário não for encontrado
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            //Qualquer outro erro vai mandar 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao atualizar o usuário: " + e.getMessage());
+        }
+    }
+
 
 }//fim do controller

@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -54,6 +57,14 @@ public class User {
     @Size(max = 100, message = "A URL da foto de perfil não pode exceder 100 caracteres")
     @Column(name = "profile_picture_url")
     private String profilePictureUrl;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_adress",
+            joinColumns = @JoinColumn(name = "pfk_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "pfk_adress_id")
+    )
+    private Set<Address> addresses = new HashSet<>();
 
     // Construtor vazio
     public User() {
@@ -171,5 +182,13 @@ public class User {
 
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
     }
 }

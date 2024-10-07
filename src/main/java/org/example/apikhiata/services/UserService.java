@@ -6,6 +6,7 @@ import org.example.apikhiata.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -24,16 +25,16 @@ public class UserService {
 
     //buscar usuário por id
     public User findUserById(int id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id " + id));
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado com o id " + id));
     }
 
     //busca um usuário pelo email
     public User findUserByEmail(String email) {
-        return userRepository.findByEmailLikeIgnoreCase(email).orElseThrow(() -> new RuntimeException("Cliente não encontrado com o email " + email));
+        return userRepository.findByEmailLikeIgnoreCase(email).orElseThrow(() -> new RuntimeException("Usuário não encontrado com o email " + email));
     }
 
     public User findUserByCPF(String cpf) {
-        return userRepository.findByCpf(cpf).orElseThrow(() -> new RuntimeException("Cliente não encontrado com o email " + cpf));
+        return userRepository.findByCpf(cpf).orElseThrow(() -> new RuntimeException("Usuário não encontrado com o email " + cpf));
     }
 
     //listar todos os usuários
@@ -58,25 +59,67 @@ public class UserService {
     //deleta usuário por id
     @Transactional
     public void deleteUserById(int id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado com o id " + id));
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado com o id " + id));
         userRepository.delete(user);
     }
 
-    //atualizar usuário por id
+
+    public void deleteUserByEmail(  String email) {
+        User user = findUserByEmail(email);
+        userRepository.delete(user);
+    }
+
+    private void updatePartialUserFields(User existingUser, Map<String, Object> atualizacoes) {
+        atualizacoes.forEach((campo, valor) -> {
+            if (campo.equals("email") || campo.equals("cpf")) {
+                throw new IllegalArgumentException("O campo " + campo + " não pode ser alterado.");
+            }
+            switch (campo) {
+                case "name":
+                    existingUser.setName((String) valor);
+                    break;
+                case "genderId":
+                    existingUser.setGenderId((Integer) valor);
+                    break;
+                case "age":
+                    existingUser.setAge((Integer) valor);
+                    break;
+                case "isDressmaker":
+                    existingUser.setIsDressmaker((Boolean) valor);
+                    break;
+                case "isPremium":
+                    existingUser.setIsPremium((Boolean) valor);
+                    break;
+                case "phone":
+                    existingUser.setPhone((int) valor);
+                    break;
+                case "imageURL":
+                    existingUser.setImageURL((String) valor);
+                    break;
+                case "password":
+                    existingUser.setPassword((String) valor);
+                    break;
+                case "profilePictureUrl":
+                    existingUser.setProfilePictureUrl((String) valor);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Campo está errado: " + campo);
+            }
+        });
+
+    }
+
     @Transactional
-    public User updateUser(int id,User user) {
+    public User updatePartialUserWithId(int id, Map<String, Object>atualizacoes) {
         User existingUser = findUserById(id);
-        existingUser.setName(user.getName());
-        existingUser.setCpf(user.getCpf());
-        existingUser.setGenderId(user.getGenderId());
-        existingUser.setAge(user.getAge());
-        existingUser.setIsDressmaker(user.getIsDressmaker());
-        existingUser.setIsPremium(user.getIsPremium());
-        existingUser.setPhone(user.getPhone());
-        existingUser.setImageURL(user.getImageURL());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setProfilePictureUrl(user.getProfilePictureUrl());
+        updatePartialUserFields(existingUser, atualizacoes);
+        return userRepository.save(existingUser);
+    }
+
+    @Transactional
+    public User updatePartialUserWithEmail(String email, Map<String, Object>atualizacoes) {
+        User existingUser = findUserByEmail(email);
+        updatePartialUserFields(existingUser, atualizacoes);
         return userRepository.save(existingUser);
     }
 }
