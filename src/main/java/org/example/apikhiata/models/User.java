@@ -1,5 +1,6 @@
 package org.example.apikhiata.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -58,6 +59,7 @@ public class User {
     @Column(name = "profile_picture_url")
     private String profilePictureUrl;
 
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_adress",
