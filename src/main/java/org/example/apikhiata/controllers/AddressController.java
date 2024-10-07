@@ -10,12 +10,15 @@ import jakarta.validation.Valid;
 import org.example.apikhiata.models.Address;
 import org.example.apikhiata.models.User;
 import org.example.apikhiata.services.AddressService;
+import org.example.apikhiata.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @ControllerAdvice
 @RestController
@@ -28,6 +31,9 @@ public class AddressController {
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/selecionar")
     @Operation(summary = "Busca por todos os endereços", description = "Busca todos os endereços cadastrados")
@@ -98,6 +104,31 @@ public class AddressController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao atualizar o endereço: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Set<Address>> getAddressesByUserId(@PathVariable int userId) {
+        User user = userService.findUserById(userId);
+        if (user != null) {
+            Set<Address> addresses = user.getAddresses();
+            return ResponseEntity.ok(addresses);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/user/inserir/{userId}")
+    public ResponseEntity<Address> addAddressToUser(@PathVariable int userId, @RequestBody Address address) {
+        User user = userService.findUserById(userId);
+
+        if (user != null) {
+            addressService.saveAddress(address);
+            user.getAddresses().add(address);
+            userService.saveUser(user);
+            return ResponseEntity.ok(address);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
