@@ -11,6 +11,7 @@ import org.example.apikhiata.models.User;
 import org.example.apikhiata.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
@@ -82,7 +83,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/inserir")
+    @PostMapping(value = "/inserir")
     public ResponseEntity<String> inserir(@Valid @RequestBody User user) {
         try {
             // Salva o novo usuário

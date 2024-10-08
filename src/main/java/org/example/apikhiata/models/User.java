@@ -59,7 +59,6 @@ public class User {
     @Column(name = "profile_picture_url")
     private String profilePictureUrl;
 
-    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_adress",
