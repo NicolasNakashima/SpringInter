@@ -13,6 +13,7 @@ import org.example.apikhiata.services.AddressService;
 import org.example.apikhiata.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,15 +26,18 @@ import java.util.Set;
 @RequestMapping("/api/enderecos")
 public class AddressController {
 
+
     private final AddressService addressService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }
 
-    @Autowired
-    private UserService userService;
+
 
     @GetMapping("/selecionar")
     @Operation(summary = "Busca por todos os endereços", description = "Busca todos os endereços cadastrados")
@@ -119,7 +123,7 @@ public class AddressController {
     }
 
     @PostMapping("/user/inserir/{userId}")
-    public ResponseEntity<Address> addAddressToUser(@PathVariable int userId, @RequestBody Address address) {
+    public ResponseEntity<Address> addAddressToUser(@PathVariable int userId, @Valid @RequestBody Address address) {
         User user = userService.findUserById(userId);
 
         if (user != null) {

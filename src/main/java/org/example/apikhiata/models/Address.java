@@ -1,6 +1,8 @@
 package org.example.apikhiata.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,6 +21,11 @@ public class Address {
     @Schema(description = "ID do endereço")
     private int id;
 
+    @NotNull(message = "O nome do destinatário não pode ser null")
+    @Size(min = 1, max = 60, message = "O nome do destinatário não pode ter mais que 60 caracteres")
+    @Schema(description = "Nome do destinatário")
+    private String recipient;
+
     @NotNull(message = "A rua não pode ser null")
     @Size(min = 1, max = 60, message = "A rua não pode ter mais que 60 caracteres")
     @Schema(description = "Nome da rua")
@@ -36,7 +43,7 @@ public class Address {
     @Schema(description = "Rótulo do endereço", example = "Casa, Trabalho")
     private String label;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany(mappedBy = "addresses")
     private Set<User> users = new HashSet<>();
 
@@ -45,8 +52,9 @@ public class Address {
     }
 
     // Construtor com parâmetros
-    public Address(int id, String street, int number, String complement, String label) {
+    public Address(int id,String recipient, String street, int number, String complement, String label) {
         this.id = id;
+        this.recipient = recipient;
         this.street = street;
         this.number = number;
         this.complement = complement;
@@ -60,6 +68,14 @@ public class Address {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     public String getStreet() {
