@@ -7,6 +7,7 @@ import org.example.apikhiata.repository.AddressRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AddressService {
@@ -48,6 +49,39 @@ public class AddressService {
         addressToUpdate.setComplement(address.getComplement());
         addressToUpdate.setLabel(address.getLabel());
         return addressRepository.save(addressToUpdate);
+    }
+
+    private void updatePartialAddressFields(Address existingAddress, Map<String, Object> atualizacoes) {
+        atualizacoes.forEach((campo, valor) -> {
+            switch (campo) {
+                case "recipient":
+                    existingAddress.setRecipient((String) valor);
+                    break;
+                case "street":
+                    existingAddress.setStreet((String) valor);
+                    break;
+                case "number":
+                    existingAddress.setNumber((int) valor);
+                    break;
+                case "complement":
+                    existingAddress.setComplement((String) valor);
+                    break;
+                case "label":
+                    existingAddress.setLabel((String) valor);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Campo está errado: " + campo);
+            }
+        });
+
+    }
+
+    //atualizar parcialmente endereço por id
+    @Transactional
+    public Address updatePartialAddressWithId(int id, Map<String, Object> atualizacoes) {
+        Address existingAddress = findAddressById(id);
+        updatePartialAddressFields(existingAddress, atualizacoes);
+        return addressRepository.save(existingAddress);
     }
 
 }
