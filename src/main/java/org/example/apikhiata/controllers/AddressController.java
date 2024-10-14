@@ -17,9 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @ControllerAdvice
 @RestController
@@ -108,6 +106,28 @@ public class AddressController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao atualizar o endereço: " + e.getMessage());
+        }
+    }
+
+    @PatchMapping("/atualizar/id/{id}")
+    @Operation(summary = "Atualizar parcialmente o endereço por ID", description = "Atualiza apenas os campos mandados do endereço pelo seu ID")
+    public ResponseEntity<?> atualizarParcial(@PathVariable int id, @RequestBody Map<String, Object> atualizacoes) {
+        try {
+            Address enderecoAtualizado = addressService.updatePartialAddressWithId(id, atualizacoes);
+            //caso de sucesso
+            Map<String, Object> response = new HashMap<>();
+            response.put("mensagem", "Usuário atualizado com sucesso");
+            response.put("usuario", enderecoAtualizado);
+
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException e) {
+            // Retorna 404 Not Found se o usuário não for encontrado
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            //Qualquer outro erro vai mandar 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao atualizar o usuário: " + e.getMessage());
         }
     }
 

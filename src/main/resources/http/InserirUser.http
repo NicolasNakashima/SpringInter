@@ -1,0 +1,20 @@
+
+POST https://apikhiata.onrender.com/api/users/inserir
+Content-Type: application/json
+
+{
+  "id": 3,
+  "name": "Joaquim Silva",
+  "cpf": "12345678910",
+  "genderId": 2,
+  "age": 30,
+  "isDressmaker": false,
+  "isPremium": false,
+  "phone": 987651234,
+  "imageURL": null,
+  "password": "senha1234",
+  "email": "joaquim@email.com",
+  "profilePictureUrl": null
+
+}
+
