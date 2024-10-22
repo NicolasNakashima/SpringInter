@@ -49,24 +49,17 @@ public class UserService {
     }
 
 
-    //deleta um usuário
-    @Transactional
-    public User deleteUser(User user) {
-        userRepository.delete(user);
-        return user;
-    }
-
     //deleta usuário por id
     @Transactional
     public void deleteUserById(int id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado com o id " + id));
-        userRepository.delete(user);
+        userRepository.deleteUserByProcedure(id);
     }
 
 
-    public void deleteUserByEmail(  String email) {
+    public void deleteUserByEmail(  String email ) {
         User user = findUserByEmail(email);
-        userRepository.delete(user);
+        userRepository.deleteUserByProcedure(user.getId());
     }
 
     private void updatePartialUserFields(User existingUser, Map<String, Object> atualizacoes) {
@@ -88,10 +81,10 @@ public class UserService {
                     existingUser.setIsDressmaker((Boolean) valor);
                     break;
                 case "isPremium":
-                    existingUser.setIsPremium((Boolean) valor);
+                    existingUser.setIsPremium((int) valor);
                     break;
                 case "phone":
-                    existingUser.setPhone((int) valor);
+                    existingUser.setPhone((String) valor);
                     break;
                 case "imageURL":
                     existingUser.setImageURL((String) valor);

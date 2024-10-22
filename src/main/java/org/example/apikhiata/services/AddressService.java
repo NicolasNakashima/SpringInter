@@ -35,8 +35,7 @@ public class AddressService {
     //deletar
     @Transactional
     public void deleteAddressById(int id) {
-        Address address = findAddressById(id);
-        addressRepository.delete(address);
+        addressRepository.deleteAddressByProcedure(id);
     }
 
     //atualizar endereço por id
