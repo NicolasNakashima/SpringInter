@@ -140,19 +140,19 @@ public class User {
         isDressmaker = dressmaker;
     }
 
-    public int getIsPremium() {
+    public int getPremiumStatus() {
         return premiumStatus;
     }
 
-    public void setIsPremium(int premium) {
+    public void setPremiumStatus(int premium) {
         premiumStatus = premium;
     }
 
-    public String getPhone() {
+    public String getPhones() {
         return phones;
     }
 
-    public void setPhone(String phones) {
+    public void setPhones(String phones) {
         this.phones = phones;
     }
 
