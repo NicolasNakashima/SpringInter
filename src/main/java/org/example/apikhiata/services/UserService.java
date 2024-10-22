@@ -80,10 +80,10 @@ public class UserService {
                 case "isDressmaker":
                     existingUser.setIsDressmaker((Boolean) valor);
                     break;
-                case "isPremium":
+                case "premiumStatus":
                     existingUser.setIsPremium((int) valor);
                     break;
-                case "phone":
+                case "phones":
                     existingUser.setPhone((String) valor);
                     break;
                 case "imageURL":
