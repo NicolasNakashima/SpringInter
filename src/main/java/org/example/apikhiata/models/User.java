@@ -35,12 +35,12 @@ public class User {
     @Column(name = "is_dressmaker")
     private boolean isDressmaker;
 
-    @NotNull(message = "É necessário definir se o usuário é premium")
-    @Column(name = "is_premium")
-    private boolean isPremium;
+    @NotNull(message = "É necessário definir o status do usuário")
+    @Column(name = "premium_status")
+    private int premiumStatus;
 
     @NotNull(message = "O telefone não pode ser nulo")
-    private int phone;
+    private String phones;
 
     @Size(max = 100, message = "A URL da imagem não pode exceder 100 caracteres")
     @Column(name = "image_url")
@@ -67,21 +67,24 @@ public class User {
     )
     private Set<Address> addresses = new HashSet<>();
 
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<UserPreference> userPreferences;
+
     // Construtor vazio
     public User() {
     }
 
     // Construtor completo
-    public User(int id, String name, String cpf, int genderId, int age, boolean isDressmaker, boolean isPremium,
-                int phone, String imageURL, String password, String email, String profilePictureUrl) {
+    public User(int id, String name, String cpf, int genderId, int age, boolean isDressmaker, int premiumStatus,
+                String phones, String imageURL, String password, String email, String profilePictureUrl) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
         this.genderId = genderId;
         this.age = age;
         this.isDressmaker = isDressmaker;
-        this.isPremium = isPremium;
-        this.phone = phone;
+        this.premiumStatus = premiumStatus;
+        this.phones = phones;
         this.imageURL = imageURL;
         this.password = password;
         this.email = email;
@@ -137,20 +140,20 @@ public class User {
         isDressmaker = dressmaker;
     }
 
-    public boolean getIsPremium() {
-        return isPremium;
+    public int getIsPremium() {
+        return premiumStatus;
     }
 
-    public void setIsPremium(boolean premium) {
-        isPremium = premium;
+    public void setIsPremium(int premium) {
+        premiumStatus = premium;
     }
 
-    public int getPhone() {
-        return phone;
+    public String getPhone() {
+        return phones;
     }
 
-    public void setPhone(int phone) {
-        this.phone = phone;
+    public void setPhone(String phones) {
+        this.phones = phones;
     }
 
     public String getImageURL() {
