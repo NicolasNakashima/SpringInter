@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Procedure(procedureName = "DELETE_USER")
     void deleteUserByProcedure(@Param("user_id") int userId);
 
+    List<User> findUsersByPremiumStatus(int premiumStatus);
+
 }

@@ -42,6 +42,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    //listar todos os usuários esperando aprovação
+    public List<User> findUsersAwaitingPremiumApproval() {
+        return userRepository.findUsersByPremiumStatus(2);
+    }
+
     //salva usuário
     @Transactional
     public User saveUser(User user) {
@@ -115,4 +120,6 @@ public class UserService {
         updatePartialUserFields(existingUser, atualizacoes);
         return userRepository.save(existingUser);
     }
+
+
 }
