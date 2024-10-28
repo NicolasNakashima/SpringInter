@@ -6,35 +6,19 @@ Descreva o que este PR faz, incluindo qualquer contexto relevante sobre a funcio
 
 ## Tipo de mudança
 
-- [ ] Correção de bug (uma mudança não-destrutiva que corrige um problema)
-- [ ] Nova funcionalidade (uma mudança não-destrutiva que adiciona funcionalidade)
-- [ ] Mudança de funcionalidade existente (uma mudança que pode quebrar a funcionalidade existente)
+- [ ] Correção de bug
+- [ ] Nova funcionalidade
+- [ ] Mudança de funcionalidade existente
 - [ ] Refatoração (melhoria do código sem alteração na funcionalidade)
 - [ ] Documentação (mudança ou adição de documentação)
-- [ ] Testes (adicionar ou corrigir testes)
-
-<!-- Descreva como você testou suas alterações. Isso pode incluir instruções para reproduzir o problema, capturas de tela de testes de unidade bem-sucedidos ou a saída de logs de integração. -->
 
 ## Checklist
 
 - [ ] Meu código segue o camelCase.
 - [ ] Eu realizei uma revisão própria do código.
 - [ ] Eu comentei o código, especialmente em áreas difíceis de entender.
-- [ ] Todos os testes novos e existentes passaram.
 - [ ] Esta alteração não introduz novos avisos ou erros no build.
 
-## Capturas de tela (se aplicável)
-
-<!-- Se aplicável, adicione capturas de tela para demonstrar as alterações. -->
-
-## Outras considerações
-
-<!-- Liste quaisquer questões técnicas, decisões de design, problemas conhecidos ou outras considerações relevantes. -->
-
-# Links Relacionados
-
-<!-- Liste os links para issues, tarefas ou documentos de design que sejam relevantes para este PR. -->
-
-## Issue relacionada
+## Issue relacionado
 
 Closes # <!-- Número da issue -->
