@@ -1,6 +1,7 @@
 package org.example.apikhiata.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -20,43 +21,54 @@ public class User {
 
     @NotNull(message = "O nome não pode ser nulo")
     @Size(min = 1, max = 60, message = "O nome deve ter entre 1 e 60 caracteres")
+    @Schema(description = "Nome do usuário")
     private String name;
 
     @NotNull(message = "O CPF não pode ser nulo")
     @CPF(message = "CPF inválido")
+    @Schema(description = "CPF do usuário")
     private String cpf;
 
     @Column(name = "gender_id", nullable = false)
+    @Schema(description = "Id do genero")
     private int genderId;
 
     @NotNull(message = "A idade não pode ser nula")
+    @Schema(description = "Idade do usuário")
     private int age;
 
     @Column(name = "is_dressmaker")
+    @Schema(description = "Se é um vendedor")
     private boolean isDressmaker;
 
     @NotNull(message = "É necessário definir o status do usuário")
     @Column(name = "premium_status")
+    @Schema(description = "Status do premium do usuário")
     private int premiumStatus;
 
     @NotNull(message = "O telefone não pode ser nulo")
+    @Schema(description = "Telefone do usuário")
     private String phones;
 
     @Size(max = 100, message = "A URL da imagem não pode exceder 100 caracteres")
     @Column(name = "image_url")
+    @Schema(description = "URL da imagem")
     private String imageURL;
 
     @NotNull(message = "A senha não pode ser nula")
     @Size(min = 8, max = 12, message = "A senha deve ter entre 8 e 12 caracteres")
+    @Schema(description = "Senha do usuário")
     private String password;
 
     @NotNull(message = "O e-mail não pode ser nulo")
     @Email(message = "E-mail inválido")
     @Size(max = 100, message = "O e-mail não pode exceder 100 caracteres")
+    @Schema(description = "E-mail do usuário")
     private String email;
 
     @Size(max = 100, message = "A URL da foto de perfil não pode exceder 100 caracteres")
     @Column(name = "profile_picture_url")
+    @Schema(description = "URL da imagem de perfil")
     private String profilePictureUrl;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -67,6 +79,9 @@ public class User {
     )
     private Set<Address> addresses = new HashSet<>();
 
+    @Schema(description = "Avaliação do usuário")
+    private double avaliation;
+
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private Set<UserPreference> userPreferences;
 
@@ -76,7 +91,7 @@ public class User {
 
     // Construtor completo
     public User(int id, String name, String cpf, int genderId, int age, boolean isDressmaker, int premiumStatus,
-                String phones, String imageURL, String password, String email, String profilePictureUrl) {
+                String phones, String imageURL, String password, String email, String profilePictureUrl, double avaliation) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -89,6 +104,7 @@ public class User {
         this.password = password;
         this.email = email;
         this.profilePictureUrl = profilePictureUrl;
+        this.avaliation = avaliation;
     }
 
     // Getters e Setters
@@ -195,4 +211,13 @@ public class User {
     public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
     }
+
+    public double getAvaliation() {
+        return avaliation;
+    }
+
+    public void setAvaliation(double avaliation) {
+        this.avaliation = avaliation;
+    }
+
 }
