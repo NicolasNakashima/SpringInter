@@ -43,6 +43,10 @@ public class Address {
     @Schema(description = "Rótulo do endereço", example = "Casa, Trabalho")
     private String label;
 
+    @Size(max = 8, message = "O CEP não pode ter mais que 8 caracteres")
+    @Schema(description = "CEP do endereço")
+    private String cep;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "addresses")
     private Set<User> users = new HashSet<>();
@@ -52,13 +56,14 @@ public class Address {
     }
 
     // Construtor com parâmetros
-    public Address(int id,String recipient, String street, int number, String complement, String label) {
+    public Address(int id,String recipient, String street, int number, String complement, String label, String cep) {
         this.id = id;
         this.recipient = recipient;
         this.street = street;
         this.number = number;
         this.complement = complement;
         this.label = label;
+        this.cep = cep;
     }
 
     // Getters e Setters
@@ -116,5 +121,13 @@ public class Address {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 }
