@@ -2,12 +2,14 @@ package org.example.apikhiata.services;
 
 import jakarta.transaction.Transactional;
 import org.example.apikhiata.models.User;
+import org.example.apikhiata.models.UserPreference;
 import org.example.apikhiata.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -100,6 +102,10 @@ public class UserService {
                 case "profilePictureUrl":
                     existingUser.setProfilePictureUrl((String) valor);
                     break;
+                case "avaliation":
+                    existingUser.setAvaliation((double) valor);
+                case "userPreferences":
+                    existingUser.setUserPreferences((Set<UserPreference>) valor);
                 default:
                     throw new IllegalArgumentException("Campo está errado: " + campo);
             }
