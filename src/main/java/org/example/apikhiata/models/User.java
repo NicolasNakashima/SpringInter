@@ -82,8 +82,8 @@ public class User {
     @Schema(description = "Avaliação do usuário")
     private double avaliation;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<UserPreference> userPreferences;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserPreference> userPreferences;
 
     // Construtor vazio
     public User() {
@@ -91,7 +91,7 @@ public class User {
 
     // Construtor completo
     public User(int id, String name, String cpf, int genderId, int age, boolean isDressmaker, int premiumStatus,
-                String phones, String imageURL, String password, String email, String profilePictureUrl, double avaliation) {
+                String phones, String imageURL, String password, String email, String profilePictureUrl, double avaliation, Set<UserPreference> userPreferences) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -105,6 +105,7 @@ public class User {
         this.email = email;
         this.profilePictureUrl = profilePictureUrl;
         this.avaliation = avaliation;
+        this.userPreferences = userPreferences;
     }
 
     // Getters e Setters
@@ -220,4 +221,11 @@ public class User {
         this.avaliation = avaliation;
     }
 
+    public Set<UserPreference> getUserPreferences() {
+        return userPreferences;
+    }
+
+    public void setUserPreferences(Set<UserPreference> userPreferences) {
+        this.userPreferences = userPreferences;
+    }
 }
