@@ -82,6 +82,10 @@ public class User {
     @Schema(description = "Avaliação do usuário")
     private double avaliation;
 
+    @Column(name = "is_admin")
+    @Schema(description = "Se é um administrador")
+    private Boolean isAdmin;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<UserPreference> userPreferences;
@@ -92,7 +96,7 @@ public class User {
 
     // Construtor completo
     public User(int id, String name, String cpf, int genderId, int age, boolean isDressmaker, int premiumStatus,
-                String phones, String imageURL, String password, String email, String profilePictureUrl, double avaliation, Set<UserPreference> userPreferences) {
+                String phones, String imageURL, String password, String email, String profilePictureUrl, double avaliation, Boolean isAdmin, Set<UserPreference> userPreferences) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -106,6 +110,7 @@ public class User {
         this.email = email;
         this.profilePictureUrl = profilePictureUrl;
         this.avaliation = avaliation;
+        this.isAdmin = isAdmin;
         this.userPreferences = userPreferences;
     }
 
@@ -155,7 +160,7 @@ public class User {
     }
 
     public void setIsDressmaker(boolean dressmaker) {
-        isDressmaker = dressmaker;
+        this.isDressmaker = dressmaker;
     }
 
     public int getPremiumStatus() {
@@ -220,6 +225,14 @@ public class User {
 
     public void setAvaliation(double avaliation) {
         this.avaliation = avaliation;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean admin) {
+        this.isAdmin = admin;
     }
 
     public Set<UserPreference> getUserPreferences() {

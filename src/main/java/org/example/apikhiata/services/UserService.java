@@ -101,6 +101,10 @@ public class UserService {
                     break;
                 case "avaliation":
                     existingUser.setAvaliation((double) valor);
+                    break;
+                case "isAdmin":
+                    existingUser.setIsAdmin((boolean) valor);
+                    break;
                 case "userPreferences":
                     Set<UserPreference> preferencias = new HashSet<>();
                     if (valor instanceof Set<?>) {
