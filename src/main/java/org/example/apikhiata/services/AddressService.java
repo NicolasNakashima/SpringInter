@@ -43,18 +43,25 @@ public class AddressService {
     @Transactional
     public Address updateAddressById(int id, Address address) {
         Address addressToUpdate = addressRepository.findById(id).orElseThrow(() -> new RuntimeException("Endereço não encontrado com o id " + id));
+        addressToUpdate.setState(address.getState());
+        addressToUpdate.setCountry(address.getCountry());
         addressToUpdate.setStreet(address.getStreet());
         addressToUpdate.setNumber(address.getNumber());
         addressToUpdate.setComplement(address.getComplement());
         addressToUpdate.setLabel(address.getLabel());
+        addressToUpdate.setCep(address.getCep());
+        addressToUpdate.setDeactivate(address.isDeactivate());
         return addressRepository.save(addressToUpdate);
     }
 
     private void updatePartialAddressFields(Address existingAddress, Map<String, Object> atualizacoes) {
         atualizacoes.forEach((campo, valor) -> {
             switch (campo) {
-                case "recipient":
-                    existingAddress.setRecipient((String) valor);
+                case "state":
+                    existingAddress.setState((String) valor);
+                    break;
+                case "country":
+                    existingAddress.setCountry((String) valor);
                     break;
                 case "street":
                     existingAddress.setStreet((String) valor);
@@ -67,6 +74,12 @@ public class AddressService {
                     break;
                 case "label":
                     existingAddress.setLabel((String) valor);
+                    break;
+                case "cep":
+                    existingAddress.setCep((String) valor);
+                    break;
+                case "deactivate":
+                    existingAddress.setDeactivate((boolean) valor);
                     break;
                 default:
                     throw new IllegalArgumentException("Campo está errado: " + campo);
