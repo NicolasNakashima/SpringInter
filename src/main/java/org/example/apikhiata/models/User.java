@@ -83,6 +83,7 @@ public class User {
     private double avaliation;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Set<UserPreference> userPreferences;
 
     // Construtor vazio

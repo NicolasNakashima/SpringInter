@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.example.apikhiata.models.User;
+import org.example.apikhiata.models.UserPreferencesDTO;
 import org.example.apikhiata.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -189,5 +190,26 @@ public class UserController {
         }
     }
 
+    @PatchMapping("/atualizar-preferencias/{userId}")
+    @Operation(summary = "Atualizar preferências do usuário", description = "Atualiza as preferências do usuário especificado pelo ID")
+    public ResponseEntity<?> atualizarPreferencias(@PathVariable int userId, @RequestBody UserPreferencesDTO userPreferencesDTO) {
+        try {
+            User usuarioAtualizado = userService.updateUserPreferences(userId, userPreferencesDTO.getUserPreferences());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("mensagem", "Preferências do usuário atualizadas com sucesso");
+            response.put("usuario", usuarioAtualizado);
+
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException e) {
+            // Retorna 404 Not Found se o usuário não for encontrado
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            // Qualquer outro erro retornará 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao atualizar as preferências do usuário: " + e.getMessage());
+        }
+    }
 
 }//fim do controller
