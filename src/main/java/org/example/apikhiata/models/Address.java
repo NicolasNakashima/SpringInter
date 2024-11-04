@@ -21,10 +21,15 @@ public class Address {
     @Schema(description = "ID do endereço")
     private int id;
 
-    @NotNull(message = "O nome do destinatário não pode ser null")
-    @Size(min = 1, max = 60, message = "O nome do destinatário não pode ter mais que 60 caracteres")
-    @Schema(description = "Nome do destinatário")
-    private String recipient;
+    @NotNull(message = "O estado não pode ser null")
+    @Size(min = 1, max = 100, message = "O estado não pode ter mais que 60 caracteres")
+    @Schema(description = "Nome do estado")
+    private String state;
+
+    @NotNull(message = "O país não pode ser null")
+    @Size(min = 1, max = 100, message = "O país não pode ter mais que 60 caracteres")
+    @Schema(description = "Nome do país")
+    private String country;
 
     @NotNull(message = "A rua não pode ser null")
     @Size(min = 1, max = 60, message = "A rua não pode ter mais que 60 caracteres")
@@ -47,6 +52,9 @@ public class Address {
     @Schema(description = "CEP do endereço")
     private String cep;
 
+    @Schema(description = "Se o endereço está inativo")
+    boolean deactivate;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "addresses")
     private Set<User> users = new HashSet<>();
@@ -56,17 +64,22 @@ public class Address {
     }
 
     // Construtor com parâmetros
-    public Address(int id,String recipient, String street, int number, String complement, String label, String cep) {
+
+    public Address(int id, String state, String country, String street, int number, String complement, String label, String cep, boolean deactivate) {
         this.id = id;
-        this.recipient = recipient;
+        this.state = state;
+        this.country = country;
         this.street = street;
         this.number = number;
         this.complement = complement;
         this.label = label;
         this.cep = cep;
+        this.deactivate = deactivate;
     }
 
-    // Getters e Setters
+
+    // Getters e setters
+
     public int getId() {
         return id;
     }
@@ -75,12 +88,20 @@ public class Address {
         this.id = id;
     }
 
-    public String getRecipient() {
-        return recipient;
+    public String getState() {
+        return state;
     }
 
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getStreet() {
@@ -115,19 +136,19 @@ public class Address {
         this.label = label;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
     public String getCep() {
         return cep;
     }
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    public boolean isDeactivate() {
+        return deactivate;
+    }
+
+    public void setDeactivate(boolean deactivate) {
+        this.deactivate = deactivate;
     }
 }

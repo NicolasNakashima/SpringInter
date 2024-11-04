@@ -122,7 +122,6 @@ public class UserService {
                     throw new IllegalArgumentException("Campo está errado: " + campo);
             }
         });
-
     }
 
     @Transactional
