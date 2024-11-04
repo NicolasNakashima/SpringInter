@@ -6,10 +6,7 @@ import org.example.apikhiata.models.UserPreference;
 import org.example.apikhiata.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -105,7 +102,22 @@ public class UserService {
                 case "avaliation":
                     existingUser.setAvaliation((double) valor);
                 case "userPreferences":
-                    existingUser.setUserPreferences((Set<UserPreference>) valor);
+                    Set<UserPreference> preferencias = new HashSet<>();
+                    if (valor instanceof Set<?>) {
+                        preferencias.addAll((Set<UserPreference>) valor);
+                    } else if (valor instanceof List<?>) {
+                        List<UserPreference> listaPreferencias = (List<UserPreference>) valor;
+                        preferencias.addAll(listaPreferencias);
+                    } else {
+                        throw new IllegalArgumentException("As preferências do usuário devem ser um conjunto ou uma lista.");
+                    }
+
+                    for (UserPreference preferencia : preferencias) {
+                        preferencia.setUser(existingUser);
+                        existingUser.getUserPreferences().add(preferencia);
+                    }
+                    break;
+
                 default:
                     throw new IllegalArgumentException("Campo está errado: " + campo);
             }
@@ -126,6 +138,16 @@ public class UserService {
         updatePartialUserFields(existingUser, atualizacoes);
         return userRepository.save(existingUser);
     }
+
+    public User updateUserPreferences(int userId, List<UserPreference> newPreferences) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        user.getUserPreferences().clear();  //limpa as preferencias salvas para depois incluir novas
+        newPreferences.forEach(pref -> pref.setUser(user));
+        user.getUserPreferences().addAll(newPreferences);
+        return userRepository.save(user);
+    }
+
 
 
 }
