@@ -1,4 +1,5 @@
 package org.example.apikhiata.models;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,7 +15,8 @@ public class UserPreference {
     private String value;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pfk_user_id", insertable = false, updatable = false)  // Foreign key para User
+    @JoinColumn(name = "pfk_user_id", insertable = false, updatable = false)
+    @JsonBackReference
     private User user;
 
     // Construtor padrão
@@ -48,7 +50,7 @@ public class UserPreference {
 
     public void setUser(User user) {
         this.user = user;
-        this.pfkUserId = user.getId();  // Sincroniza o ID do usuário
+        this.pfkUserId = user.getId();
     }
 }
 
