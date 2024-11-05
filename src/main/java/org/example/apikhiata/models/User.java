@@ -19,11 +19,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "name", unique = true)
     @NotNull(message = "O nome não pode ser nulo")
     @Size(min = 1, max = 60, message = "O nome deve ter entre 1 e 60 caracteres")
     @Schema(description = "Nome do usuário")
     private String name;
 
+    @Column(name = "cpf", unique = true)
     @NotNull(message = "O CPF não pode ser nulo")
     @CPF(message = "CPF inválido")
     @Schema(description = "CPF do usuário")
@@ -56,10 +58,11 @@ public class User {
     private String imageURL;
 
     @NotNull(message = "A senha não pode ser nula")
-    @Size(min = 8, max = 12, message = "A senha deve ter entre 8 e 12 caracteres")
+    @Size(min = 8, max = 100, message = "A senha deve ter entre 8 e 12 caracteres")
     @Schema(description = "Senha do usuário")
     private String password;
 
+    @Column(name = "email", unique = true)
     @NotNull(message = "O e-mail não pode ser nulo")
     @Email(message = "E-mail inválido")
     @Size(max = 100, message = "O e-mail não pode exceder 100 caracteres")
