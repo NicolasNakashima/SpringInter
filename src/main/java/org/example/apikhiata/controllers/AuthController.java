@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.crypto.SecretKey;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -70,7 +67,11 @@ public class AuthController {
                             .signWith(SignatureAlgorithm.HS512, secretKey) //Usa a chave secreta para assinar
                             .compact();
 
-                    return ResponseEntity.ok(new Gson().toJson(token));
+                    Map<String, Object> response = new HashMap<>();
+                    response.put("token", token);
+                    response.put("url_photo", user.get().getProfilePictureUrl());
+
+                    return ResponseEntity.ok(response);
                 } catch (Exception e) {
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(gson.toJson("Erro ao gerar o Token JWT"));
                 }
