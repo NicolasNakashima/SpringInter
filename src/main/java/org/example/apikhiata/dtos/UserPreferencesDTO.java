@@ -1,4 +1,6 @@
-package org.example.apikhiata.models;
+package org.example.apikhiata.dtos;
+
+import org.example.apikhiata.models.UserPreference;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package org.example.apikhiata.services;
 
 import jakarta.transaction.Transactional;
+import org.example.apikhiata.models.PasswordUtils;
 import org.example.apikhiata.models.User;
 import org.example.apikhiata.models.UserPreference;
 import org.example.apikhiata.repository.UserRepository;
@@ -18,8 +19,12 @@ public class UserService {
     }
 
     //buscar usuário por nome
-    public List<User> findUserByName(String name) {
+    public Optional<User> findUserByName(String name) {
         return userRepository.findByNameLikeIgnoreCase(name);
+    }
+
+    public List<User> findAllUsersByName(String nome){
+        return userRepository.findAllByNameLikeIgnoreCase(nome);
     }
 
     //buscar usuário por id
@@ -49,6 +54,8 @@ public class UserService {
     //salva usuário
     @Transactional
     public User saveUser(User user) {
+        String hashedPassword = PasswordUtils.hashPassword(user.getPassword());
+        user.setPassword(hashedPassword);
         return userRepository.save(user);
     }
 

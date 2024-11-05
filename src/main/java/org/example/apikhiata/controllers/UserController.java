@@ -8,11 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.example.apikhiata.models.User;
-import org.example.apikhiata.models.UserPreferencesDTO;
+import org.example.apikhiata.dtos.UserPreferencesDTO;
 import org.example.apikhiata.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +52,7 @@ public class UserController {
     @GetMapping("/selecionar/nome/{nome}")
     @Operation(summary = "busca usuário por nome", description = "Busca o usuário selecionado pelo nome dele")
     public ResponseEntity<?> buscarUsuarioPorNome(@Valid @PathVariable String nome) {
-        List<User> userList = userService.findUserByName(nome);
+        Optional<User> userList = userService.findUserByName(nome);
         if (userList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Clientes não encontrado");
         } else {
