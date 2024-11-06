@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:3001","http://ec2-54-161-187-70.compute-1.amazonaws.com:3000") // Permite requisições de qualquer lujgar
+                .allowedOriginPatterns("http://localhost:*", "http://ec2-54-161-187-70.compute-1.amazonaws.com:3000") // Permite requisições de qualquer lujgar
                 .allowedMethods("*") // Métodos permitidos
                 .allowedHeaders("*") // Permite todos os cabeçalhos
                 .allowCredentials(true)
