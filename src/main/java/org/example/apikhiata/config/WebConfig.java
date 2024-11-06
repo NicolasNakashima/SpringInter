@@ -10,11 +10,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // Define o caminho que terá CORS habilitado
-                .allowedOrigins("http://localhost:3000") // Permite requisições de localhost:3000
+        registry.addMapping("/api/**")
+                .allowedOrigins("*") // Permite requisições de qualquer lujgar
                 .allowedMethods("*") // Métodos permitidos
                 .allowedHeaders("*") // Permite todos os cabeçalhos
-                .allowCredentials(true) // Permite envio de cookies/credenciais
-                .maxAge(3600); // Define por quanto tempo a resposta CORS pode ser armazenada em cache pelo navegador
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }
