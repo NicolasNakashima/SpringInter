@@ -87,11 +87,7 @@ public class UserController {
     @Operation(summary = "Busca clientes pendentes para aprovação", description = "Retornar todos os clientes que estão pendentes para aprovação do premium")
     public ResponseEntity<?> buscarTodosPendentes() {
         List<User> userList = userService.findUsersAwaitingPremiumApproval();
-        if (userList.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum cliente encontrado");
-        } else {
             return ResponseEntity.ok(userList);
-        }
     }
 
     @PostMapping(value = "/inserir")
