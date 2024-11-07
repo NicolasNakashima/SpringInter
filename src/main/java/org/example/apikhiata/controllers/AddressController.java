@@ -43,6 +43,7 @@ public class AddressController {
             @ApiResponse(responseCode = "200", description = "Lista de endereços retornada com sucesso!",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Lista de endereços vazia", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public List<Address> buscarTodos() {
@@ -51,6 +52,13 @@ public class AddressController {
 
     @GetMapping("/selecionar/id/{id}")
     @Operation(summary = "Buscar endereço por id", description = "Retornar um endereço pelo seu id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Endereço retornado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Endereço não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<?> buscarEnderecoPorId(@Valid @PathVariable int id) {
         try {
             Address address = addressService.findAddressById(id);
@@ -61,6 +69,14 @@ public class AddressController {
     }
 
     @PostMapping("/inserir")
+    @Operation(summary = "Inseririr um novo endereço", description = "Insere um novo endereço")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Endereço inserido com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "400" , description = "Erro de validação", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<String> inserir(@Valid @RequestBody Address address) {
         try {
             // Salva o novo usuário
@@ -80,6 +96,13 @@ public class AddressController {
 
     @DeleteMapping("/deletar/{id}")
     @Operation(summary = "Deletar um endereço por id", description = "Deleta um endereço pelo id dele")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Endereço deletado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Endereço não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<String> deletar(@Valid @PathVariable int id) {
         try {
             addressService.deleteAddressById(id);
@@ -96,6 +119,13 @@ public class AddressController {
 
     @PutMapping("/atualizar/{id}")
     @Operation(summary = "Atualizar endereço por id", description = "Atualiza um endereço existente pelo seu id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Endereço atualizado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Endereço não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<String> atualizarEndereco(@Valid @PathVariable int id, @Valid @RequestBody Address address) {
         try {
             // Chama o serviço para atualizar o endereço
@@ -111,6 +141,13 @@ public class AddressController {
 
     @PatchMapping("/atualizar/id/{id}")
     @Operation(summary = "Atualizar parcialmente o endereço por ID", description = "Atualiza apenas os campos mandados do endereço pelo seu ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Endereço atualizado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Endereço não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<?> atualizarParcial(@PathVariable int id, @RequestBody Map<String, Object> atualizacoes) {
         try {
             Address enderecoAtualizado = addressService.updatePartialAddressWithId(id, atualizacoes);
@@ -132,6 +169,14 @@ public class AddressController {
     }
 
     @GetMapping("/user/{userId}")
+    @Operation(summary = "Obter endereços de um usuário por ID", description = "Retorna todos os endereços de um usuário pelo seu ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Endereços encontrados com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Endereços não encontrados", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<Set<Address>> getAddressesByUserId(@PathVariable int userId) {
         User user = userService.findUserById(userId);
         if (user != null) {
@@ -143,6 +188,14 @@ public class AddressController {
     }
 
     @PostMapping("/user/inserir/{userId}")
+    @Operation(summary = "Adicionar endereço ao usuário por ID", description = "Adiciona um endereço ao usuário pelo seu ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Endereço adicionado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Endereço não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<Address> addAddressToUser(@PathVariable int userId, @Valid @RequestBody Address address) {
         User user = userService.findUserById(userId);
 

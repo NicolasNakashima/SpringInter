@@ -18,30 +18,30 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "ID do endereço")
+    @Schema(description = "ID do endereço", example = "1")
     private int id;
 
     @NotNull(message = "O estado não pode ser null")
     @Size(min = 1, max = 100, message = "O estado não pode ter mais que 60 caracteres")
-    @Schema(description = "Nome do estado")
+    @Schema(description = "Nome do estado", example = "Santa Catarina")
     private String state;
 
     @NotNull(message = "O país não pode ser null")
     @Size(min = 1, max = 100, message = "O país não pode ter mais que 60 caracteres")
-    @Schema(description = "Nome do país")
+    @Schema(description = "Nome do país", example = "Brasil")
     private String country;
 
     @NotNull(message = "A rua não pode ser null")
     @Size(min = 1, max = 60, message = "A rua não pode ter mais que 60 caracteres")
-    @Schema(description = "Nome da rua")
+    @Schema(description = "Nome da rua", example = "Av. Paulista")
     private String street;
 
     @NotNull(message = "O número não pode ser null")
-    @Schema(description = "Número da casa ou apartamento")
+    @Schema(description = "Número da casa ou apartamento", example = "123")
     private int number;
 
     @Size(max = 50, message = "O complemento não pode ter mais que 50 caracteres")
-    @Schema(description = "Complemento do endereço")
+    @Schema(description = "Complemento do endereço", example = "Perto do Oba Hortifruit")
     private String complement;
 
     @Size(max = 50, message = "O rótulo não pode ter mais que 50 caracteres")
@@ -49,10 +49,10 @@ public class Address {
     private String label;
 
     @Size(max = 8, message = "O CEP não pode ter mais que 8 caracteres")
-    @Schema(description = "CEP do endereço")
+    @Schema(description = "CEP do endereço", example = "12345678")
     private String cep;
 
-    @Schema(description = "Se o endereço está inativo")
+    @Schema(description = "Se o endereço está inativo", example = "true")
     boolean deactivate;
 
     @JsonIgnore
