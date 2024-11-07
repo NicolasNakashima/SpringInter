@@ -1,5 +1,6 @@
 package org.example.apikhiata.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,9 +9,11 @@ public class UserPreference {
 
     @Id
     @Column(name = "pfk_user_id")
+    @Schema(description = "ID do usuário", example = "1")
     private int pfkUserId;
 
     @Id
+    @Schema(description = "valor da preferência", example = "crochê")
     @Column(name = "value")
     private String value;
 

@@ -14,7 +14,7 @@ public class Gender {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "ID do gênero")
+    @Schema(description = "ID do gênero", example = "1")
     private int id;
 
     @NotNull(message = "O gênero não pode ser null")
