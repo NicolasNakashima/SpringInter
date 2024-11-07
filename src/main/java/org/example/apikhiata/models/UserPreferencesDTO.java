@@ -1,4 +1,4 @@
-package org.example.apikhiata.dtos;
+package org.example.apikhiata.models;
 
 import org.example.apikhiata.models.UserPreference;
 

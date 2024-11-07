@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.example.apikhiata.models.User;
-import org.example.apikhiata.dtos.UserPreferencesDTO;
+import org.example.apikhiata.models.UserPreferencesDTO;
 import org.example.apikhiata.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +43,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Lista de usuários retornada com sucesso!",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Lista de usuários vazia", content = @Content),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     public List<User> buscarTodos() {
@@ -51,6 +52,13 @@ public class UserController {
 
     @GetMapping("/selecionar/nome/{nome}")
     @Operation(summary = "busca usuário por nome", description = "Busca o usuário selecionado pelo nome dele")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Não há nenhum usuário com esse nome", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<?> buscarUsuarioPorNome(@Valid @PathVariable String nome) {
         Optional<User> userList = userService.findUserByName(nome);
         if (userList.isEmpty()) {
@@ -63,6 +71,13 @@ public class UserController {
 
     @GetMapping("/selecionar/email/{email}")
     @Operation(summary = "Buscar cliente por email", description = "Retornar um cliente pelo seu email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Não há nenhum usuário com esse email", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<?> buscarClientePorEmail(@Valid @PathVariable String email) {
         try {
             User user = userService.findUserByEmail(email);
@@ -74,6 +89,13 @@ public class UserController {
 
     @GetMapping("/selecionar/id/{id}")
     @Operation(summary = "Buscar cliente por id", description = "Retornar um cliente pelo seu id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário retornado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Não há nenhum usuário com esse id", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<?> buscarClientePorId(@Valid @PathVariable int id) {
         try {
             User user = userService.findUserById(id);
@@ -85,12 +107,27 @@ public class UserController {
 
     @GetMapping("/selecionar/awaiting-premium")
     @Operation(summary = "Busca clientes pendentes para aprovação", description = "Retornar todos os clientes que estão pendentes para aprovação do premium")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de usuários retornada com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Lista de usuários vazia", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<?> buscarTodosPendentes() {
         List<User> userList = userService.findUsersAwaitingPremiumApproval();
             return ResponseEntity.ok(userList);
     }
 
     @PostMapping(value = "/inserir")
+    @Operation(summary = "Inseririr novo usuário", description = "Insere um novo usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Cliente inserido com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "400" , description = "Erro de validação", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<String> inserir(@Valid @RequestBody User user) {
         try {
             // Salva o novo usuário
@@ -110,6 +147,13 @@ public class UserController {
 
     @DeleteMapping("/deletar/{id}")
     @Operation(summary = "Deletar usuário por id", description = "Deleta um usuário pelo id dele")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente deletado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Não há nenhum usuário com esse id", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<String> deletar(@Valid @PathVariable int id) {
         try {
             userService.deleteUserById(id);
@@ -126,6 +170,13 @@ public class UserController {
 
     @DeleteMapping("/deletar/email/{email}")
     @Operation(summary = "Deletar usuário por email", description = "Deleta um usuário pelo email dele")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente deletado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Não há nenhum usuário com esse email", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<String> deletarPorEmail(@Valid @PathVariable String email) {
         try {
             userService.deleteUserByEmail(email);
@@ -143,6 +194,13 @@ public class UserController {
 
     @PatchMapping("/atualizar/{id}")
     @Operation(summary = "Atualizar parcialmente o usuário por ID", description = "Atualiza apenas os campos mandados do usuário pelo seu ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Não há nenhum usuário com esse id", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<?> atualizarParcial(@PathVariable int id, @RequestBody Map<String, Object> atualizacoes) {
         try {
             User usuarioAtualizado = userService.updatePartialUserWithId(id, atualizacoes);
@@ -165,6 +223,13 @@ public class UserController {
 
     @PatchMapping("/atualizar/email/{email}")
     @Operation(summary = "Atualizar parcialmente o usuário por email", description = "Atualiza apenas os campos mandados do usuário pelo seu email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Não há nenhum usuário com esse email", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<?> atualizarParcial(@PathVariable String email, @RequestBody Map<String, Object> atualizacoes) {
         try {
             User usuarioAtualizado = userService.updatePartialUserWithEmail(email, atualizacoes);
@@ -187,6 +252,13 @@ public class UserController {
 
     @PatchMapping("/atualizar-preferencias/{userId}")
     @Operation(summary = "Atualizar preferências do usuário", description = "Atualiza as preferências do usuário especificado pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Preferências do usuário atualizadas com sucesso!",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "404" , description = "Não há nenhum usuário com esse ID", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
+    })
     public ResponseEntity<?> atualizarPreferencias(@PathVariable int userId, @RequestBody UserPreferencesDTO userPreferencesDTO) {
         try {
             User usuarioAtualizado = userService.updateUserPreferences(userId, userPreferencesDTO.getUserPreferences());
